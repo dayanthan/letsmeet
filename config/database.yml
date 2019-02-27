@@ -6,5 +6,6 @@ default: &default
 development:
   <<: *default
   database: testmeet_development
+  host: localhost
   username: postgres
-  username: postgres
+  password: root

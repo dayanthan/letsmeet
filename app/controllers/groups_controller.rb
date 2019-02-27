@@ -43,11 +43,18 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @user_groups=UserGroup.where("group_id=?",@group.id)
     @group.destroy
+    @user_groups.destroy_all
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def add_members
+    @groups = Group.where("user_id=?",session[:user_id])
+    @users = User.where("id!=?", session[:user_id])
   end
 
   private

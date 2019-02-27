@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   get 'welcome', to: 'users#welcome', as: 'welcome' 
+  get 'add_members/:id', to: 'groups#add_members', as: 'add_members'
   root :to => "users#welcome"
 end
