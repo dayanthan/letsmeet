@@ -15,13 +15,12 @@
         <td><%= group.name %></td>
         <td>
           <%= link_to t('.invite', :default => t("helpers.links.invite")),
-                      group_path(group), :class => 'btn btn-primary btn-xs' %>
+                      send_invite_url(@group_id, group), method: :post, :class => 'btn btn-primary btn-xs' %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_group_path,
-            :class => 'btn btn-primary' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              groups_path, :class => 'btn btn-default'  %>

@@ -51,19 +51,23 @@
             <li><%= link_to "Group", "/groups"  %></li>
             <!-- <li><%= link_to "Link2", "/path2"  %></li>
             <li><%= link_to "Link3", "/path3"  %></li> -->
+            
           </ul>
+          <ul style="float:right;margin-top: 1.5%;">
+              <% if current_user %>
+                Welcome <%= current_user.name.capitalize %>!!
+              <%= link_to "Log Out", logout_path %>
+              <% else %>
+                <%= link_to "Sign Up", "/users/new" %> or 
+                <%= link_to "Log In", login_path %>
+              <% end %>
+            
+          </ul>
+           
         </div>
       </div>
     </div>
-    <div style="text-align: center;">
-      <% if current_user %>
-        Welcome <%= current_user.name.capitalize %>.
-      <%= link_to "Log Out", logout_path %>
-      <% else %>
-        <%= link_to "Sign Up", "/users/new" %> or 
-        <%= link_to "Log In", "/sessions/new" %>
-      <% end %>
-      </div>
+
     <div class="container">
       <div class="row">
         <div class="col-lg-9">

@@ -1,5 +1,6 @@
 class Group < ApplicationRecord
   has_many :usergroup
+  has_many :invitations
   has_many :users, through: :usergroup#, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true

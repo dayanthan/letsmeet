@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @user.name %></h1>,
+    <p>
+      I would like you to join our group.
+    </p>
+
+	  <p><%= accept_invitation_url(@invitation.invitation_link) %></p>
+
+  </body>
+</html>
