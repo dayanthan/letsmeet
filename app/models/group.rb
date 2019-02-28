@@ -2,7 +2,7 @@ class Group < ApplicationRecord
   has_many :usergroup
   has_many :invitations
   has_many :users, through: :usergroup#, dependent: :destroy
-
+  has_many :posts
   validates :name, presence: true, uniqueness: true
 
   before_create :generate_token

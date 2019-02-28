@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :users 
-  resources :groups
+  resources :groups do
+    resources :posts do
+       resources :comments
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
   match '/users/confirm_email/:token', to: 'users#confirm_email', via: :get, as: :confirm_email
   match '/groups/accept_invitation/:token', to: 'groups#accept_invitation', via: :get, as: :accept_invitation
