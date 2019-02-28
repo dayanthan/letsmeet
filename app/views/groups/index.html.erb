@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:token) %></th>
       <th><%= model_class.human_attribute_name(:status) %></th>
       <th><%= model_class.human_attribute_name(:limit) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -16,7 +15,6 @@
     <% @groups.each do |group| %>
       <tr>
         <td><%= group.name %></td>
-        <td><%= group.token %></td>
         <td><%= group.status %></td>
         <td><%= group.limit %></td>
         <td>

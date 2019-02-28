@@ -8,4 +8,4 @@ development:
   database: testmeet_development
   host: localhost
   username: postgres
-  password: root
+  password: postgres

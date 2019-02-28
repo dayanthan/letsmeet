@@ -6,10 +6,6 @@
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @group.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:token) %>:</strong></dt>
-  <dd><%= @group.token %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
-  <dd><%= @group.status %></dd>
   <dt><strong><%= model_class.human_attribute_name(:limit) %>:</strong></dt>
   <dd><%= @group.limit %></dd>
 
@@ -26,3 +22,23 @@
               :class => 'btn btn-danger' %>
 <%= link_to t('.post', :default => t("helpers.links.post")),
               group_posts_path(@group), :class => 'btn btn-primary' %>              
+
+<div class="page-header">
+  <h1>Users list</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

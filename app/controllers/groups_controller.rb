@@ -2,12 +2,13 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index
-   @group_list = UserGroup.where("user_id =?",session[:user_id]).pluck('group_id');
-   @groups = Group.where(:id => @group_list)
-
+    @group_list = UserGroup.where("user_id =?",session[:user_id]).pluck('group_id');
+    @groups = Group.where(:id => @group_list)
   end
 
   def show
+    @user_list = UserGroup.where("group_id =?",params[:id]).pluck('user_id');
+    @users = User.where(:id => @user_list)
   end
 
   def new

@@ -1,6 +1,5 @@
 <%#= form_for @post, :html => { :class => "form-horizontal post" } do |f| %>
-<%= form_with(model: [ @group, @group.posts.build ], local: true) do |f| %>
-
+<%= form_with(model: [ @group, @group.posts.build ], local: true, html:{:class=> "post"}) do |f| %>
   <div class="form-group">
     <%= f.label :title, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
