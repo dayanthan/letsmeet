@@ -1,0 +1,51 @@
+<%- model_class = Post -%>
+<div class="page-header">
+  <h1>All posts</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      
+     
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @posts.each do |post| %>
+       <tr>
+        <td><h3><%= model_class.human_attribute_name(:title) %></h3>:
+        <h4><%= post.title %></h4></td>
+      </tr>
+      <tr>
+        <td><h3><%= model_class.human_attribute_name(:description) %></h3>:
+        <h4><%= post.description %></h4><td>
+      </tr>
+      <tr>
+        <td>
+          <%@comments=all_coments(post.id)%>
+          <td>
+            <%@comments.each do |comment|%>
+            <p><%=comment.body%></p>
+            <%end%>
+          </td>
+        </td>
+      </tr>
+      <tr>
+        <td >
+        <h4>Add a comment:</h4>
+        <%= form_with(model: [ post, post.comments.build ], local: true) do |form| %>
+          <p>
+            <%= form.label :body %><br>
+            <%= form.text_area :body %>
+          </p>
+          <p>
+            <%= form.submit %>
+          </p>
+        <% end %>
+      </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

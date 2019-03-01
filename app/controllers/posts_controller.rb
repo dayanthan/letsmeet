@@ -6,6 +6,10 @@ class PostsController < ApplicationController
     @posts = Post.where("group_id=?",params[:group_id])
   end
 
+  def all_posts
+    @posts = Post.all
+  end
+
   def show
   end
 

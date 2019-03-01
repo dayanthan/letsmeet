@@ -74,8 +74,10 @@ class GroupsController < ApplicationController
     @invitation=Invitation.create(:email => @user.email,:sender_id => session[:user_id],:receiver_id => params[:user_id], :group_id => params[:group_id], :is_approved => is_admin)
 
      if @invitation.is_approved
-            InviteMailer.group_invitaion(@user, @group, @invitation).deliver
+            InviteMailer.group_invitaion(@user, @group, @invitation).deliver_later
             # format.html { redirect_to "/add_members/4", notice: 'Invitation was successfully sent.' }
+            flash[:notice] = "Invitation was successfully sent"
+            redirect_to add_members_path(params[:group_id])
      else
      end
 

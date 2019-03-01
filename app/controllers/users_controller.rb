@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        UserMailer.registration_confirmation(@user).deliver
+        UserMailer.registration_confirmation(@user).deliver_later
         format.html { redirect_to root_url, notice: 'Please confirm your email address to continue.' }
       else
         flash[:error] = "Ooooppss, something went wrong!"

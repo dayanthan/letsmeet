@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
   has_secure_password
-  has_many :usergroup
-  has_many :groups, through: :usergroup#, dependent: :destroy
+  has_many :user_groups
+  has_many :groups, through: :user_groups#, dependent: :destroy
   has_many :invitations, :class_name => "Invitation", :foreign_key => 'receiver_id'
   has_many :sent_invites, :class_name => "Invitation", :foreign_key => 'sender_id'
   has_many :posts, dependent: :destroy
