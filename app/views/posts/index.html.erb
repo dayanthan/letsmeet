@@ -7,7 +7,6 @@
     <tr>
       <th><%= model_class.human_attribute_name(:title) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:is_approved) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -17,17 +16,26 @@
       <tr>
         <td><%= post.title %></td>
         <td><%= post.description %></td>
-        <td><%= post.is_approved %></td>
+        <%post_creator(post)%>
         <td>
-          <%= link_to t('.show', :default => t("helpers.links.show")),
-                      group_post_path(post.group_id, post.id ), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_group_post_path(post.group_id, post.id), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      group_posts_path(post),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
+          <%if @post_owner %>
+            <%= link_to t('.show', :default => t("helpers.links.show")),
+                        group_post_path(post.group_id, post.id ), :class => 'btn btn-default btn-xs' %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_group_post_path(post.group_id, post.id), :class => 'btn btn-default btn-xs' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        delet_post_path(post.group_id, post.id),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger' %>
+             <% if !@group_owner.empty? && post.is_approved!=true%>
+             <%= link_to t('.approve', :default => t("helpers.links.approve")),
+                          post_confirmation_path(post.group_id, post.id), {:class => 'btn btn-primary btn-xs', :method => :post} %>
+            <%end%>           
+          <%else%>
+                        <p>you don't have any permission of this group</p>
+          <%end%>
+
         </td>
       </tr>
     <% end %>

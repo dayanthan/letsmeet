@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   end
 
   def all_posts
-    @posts = Post.all
+    @posts = Post.where("is_approved =?",true)
   end
 
   def show
@@ -53,12 +53,47 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @group = Group.find(params[:group_id])
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to group_posts_path(@group), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
+
+  def reply_comments
+    @comment_id=params[:id]
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def submit_reply
+    @comment_id=params[:id]
+    @reply_comments=ReplyComment.create(:body=>params[:body], :comment_id=>params[:comment_id], :user_id=>session[:user_id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def all_reply_comments
+    @all_reply_comments=ReplyComment.where("comment_id=?",params[:id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def post_confirmation
+    @group=Group.find_by_id(params[:group_id])
+    @post=Post.find_by_id(params[:id])
+    @post.update_attributes(:is_approved => true)
+    flash[:notice] = "post was approved successfully"
+    redirect_to group_posts_path(@group)
+  end
+
 
   private
     def set_post

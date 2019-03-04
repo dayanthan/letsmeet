@@ -5,47 +5,80 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      
-     
     </tr>
   </thead>
   <tbody>
 
     <% @posts.each do |post| %>
-       <tr>
-        <td><h3><%= model_class.human_attribute_name(:title) %></h3>:
-        <h4><%= post.title %></h4></td>
+       <tr class="post_top">
+        <td colspan="2"><h4><%= model_class.human_attribute_name(:title) %>: <%= post.title %></h4>
+        </td>
       </tr>
-      <tr>
-        <td><h3><%= model_class.human_attribute_name(:description) %></h3>:
-        <h4><%= post.description %></h4><td>
-      </tr>
-      <tr>
+      <tr class="post_top">
+        <td ><h4><%= model_class.human_attribute_name(:description) %>:<%= post.description %></h4>
         <td>
-          <%@comments=all_coments(post.id)%>
-          <td>
+      </tr>
+      <tr>
+
+          <%@comments=all_comments(post.id)%>
+          <td colspan="2">
+            <h4>Comments(<%=@comments.count%>)</h4>
             <%@comments.each do |comment|%>
-            <p><%=comment.body%></p>
+            <%find_user(comment)%>
+            <table>
+              <tr>
+                <td>
+                  <%=@user.name.capitalize%>:
+                </td>
+                <td>
+                  <%=comment.body%>
+                </td>
+                <td>
+                  <%=comment.created_at.strftime("%e %b %Y %H:%M:%S%p")%>
+                </td>
+                <td>
+                  <%= link_to 'Reply', reply_comments_path(comment),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-primary btn-xs'}  %>
+               </td>
+              </tr>
+              <tr>
+                <td>
+                  
+                </td>
+                <td>
+                  <%total_replies(comment)%>
+                  Replies(<%=@all_replies.count%>)
+                </td>
+                  <td>
+                    <% if @all_replies.count > 0%>
+                    <%= link_to 'view all', all_reply_comments_path(comment),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-primary btn-xs'}  %>
+                    <%end%>
+                  </td>
+              </tr>
+            </table>
             <%end%>
-          </td>
         </td>
       </tr>
       <tr>
         <td >
-        <h4>Add a comment:</h4>
+        <h5>Add a comment:</h5>
         <%= form_with(model: [ post, post.comments.build ], local: true) do |form| %>
           <p>
-            <%= form.label :body %><br>
-            <%= form.text_area :body %>
+            <%= form.text_area :body, :class => "form-control" %>
           </p>
           <p>
-            <%= form.submit %>
+            <%= form.submit class: 'btn btn-primary'%>
           </p>
         <% end %>
       </td>
       </tr>
     <% end %>
+    <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
   </tbody>
 </table>
+
 
 

@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   has_secure_password
-  has_secure_password
   has_many :user_groups
   has_many :groups, through: :user_groups#, dependent: :destroy
   has_many :invitations, :class_name => "Invitation", :foreign_key => 'receiver_id'
@@ -18,7 +17,6 @@ class User < ApplicationRecord
     self.confirm_token = nil
     save!(:validate => false)
   end
-  # before_create :generate_token
 
 protected
 	
@@ -27,10 +25,4 @@ protected
           self.confirm_token = SecureRandom.urlsafe_base64.to_s
       end
     end
-  #  def generate_token
-  #   self.invitation_link = loop do
-  #     random_token = SecureRandom.urlsafe_base64(nil, false)
-  #     break random_token unless Group.exists?(invitation_link: random_token)
-  #   end
-  # end
 end

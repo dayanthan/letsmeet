@@ -1,0 +1,47 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Group names</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% own_groups.each do |group| %>
+      <tr>
+        <td colspan="2"><h5><%= group.name %></h5></td>
+      </tr>
+      <%@pending_list=pending_requests(group)%>
+      <%if @pending_list.count>0%>
+      <tr>
+        <td colspan="2">
+          <table width="93%">
+          <%@pending_list.each do |pending|%>
+          <tr>
+            <td>
+            </td>
+            <td colspan="2">
+            <%pending_user(pending)%>
+            <%= @user.email%>
+            </td>
+                    
+            <td >
+            <%= link_to t('.approve', :default => t("helpers.links.approve")),
+                      invitation_status_path(group.id, pending.id, "approve"),  {:remote => true, :class => 'btn btn-default btn-xs', method: :post}   %>
+            <%= link_to t('.ignore', :default => t("helpers.links.ignore")),
+                      invitation_status_path(group.id, pending.id, "ignore"),  {:remote => true, :class => 'btn btn-danger btn-xs', method: :post}  %>
+            </td>          
+          </tr>
+        <%end%>
+        </table>
+       </td>
+      </tr>
+      <%else%>
+      <tr>
+        <td colspan="2">
+          No pending request for this group
+        </td>
+      </tr>
+      <%end%>
+    <% end %>
+  </tbody>
+</table>

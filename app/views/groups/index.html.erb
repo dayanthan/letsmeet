@@ -1,21 +1,19 @@
 <%- model_class = Group -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Own Groups</h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:status) %></th>
-      <th><%= model_class.human_attribute_name(:limit) %></th>
+      <th><%= model_class.human_attribute_name(:total_members) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @groups.each do |group| %>
+    <% @own_groups.each do |group| %>
       <tr>
         <td><%= group.name %></td>
-        <td><%= group.status %></td>
         <td><%= group.limit %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
@@ -29,12 +27,44 @@
                       :class => 'btn btn-xs btn-danger' %>
           <%= link_to t('.add_members', :default => t("helpers.links.add_members")),
                       add_members_path(group), :class => 'btn  btn-primary btn-xs' %>
+          <%= link_to t('.add_post', :default => t("helpers.links.add_post")),
+              group_posts_path(group), :class => 'btn btn-primary btn-xs' %>            
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_group_path,
             :class => 'btn btn-primary' %>
+
+<div class="page-header">
+  <h1>participated Groups</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:total_members) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @participant_groups.each do |group| %>
+      <%if group.user_id!=session[:user_id]%>
+      <tr>
+        <td><%= group.name %></td>
+        <td><%= group.limit %></td>
+        <td>
+          <%= link_to t('.add_members', :default => t("helpers.links.add_members")),
+                      add_members_path(group), :class => 'btn  btn-primary btn-xs' %>
+          <%= link_to t('.add_post', :default => t("helpers.links.add_post")),
+              group_posts_path(group), :class => 'btn btn-primary btn-xs' %>
+        </td>
+      </tr>
+      <%end%>
+    <% end %>
+  </tbody>
+</table>

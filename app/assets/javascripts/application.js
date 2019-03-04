@@ -10,26 +10,10 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require rails-ujs
+//= require jquery
+//= require jquery_ujs
+//= require twitter/bootstrap
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-
-
-function eatFood() {
-alert('Form has been submitted');
-// var form = $(this);
-//     var url = form.attr('action');
-
-    $.ajax({
-           type: "POST",
-           url: "add_comments",
-           data: form.serialize(), // serializes the form's elements.
-           success: function(data)
-           {
-               alert(data); // show response from the php script.
-           }
-         });
-preventDefault();
-}
 

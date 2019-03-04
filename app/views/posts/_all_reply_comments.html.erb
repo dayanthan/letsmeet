@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">x</button>
+  <h4 class="modal-title" id="myModalLabel">All Replies</h4>
+</div>
+<div class="modal-body">
+  <table class="table">
+  <%i=0%>
+  <%all_replies.each do |reply|%>
+      <tr>
+        <th scope="row"><%=i=i+1%></th>
+        <td>
+          <%find_user(reply)%>
+          <%=@user.name.capitalize%>
+        </td>
+        <td>
+           <%=reply.body%>
+        </td>
+        <td>
+           <%=reply.created_at.strftime("%e %b %Y %H:%M:%S%p")%>
+        </td>
+      </tr>
+  <%end%>
+  </table>
+</div>

@@ -1,0 +1,3 @@
+$("#modal-window").find(".modal-content").html("<%= j (render 'reply_comments', cmt_id: @comment_id) %>");
+$("#modal-window").modal();
+$("#modal-window").css("cssText", "display: block !important;");

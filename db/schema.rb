@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_28_051822) do
+ActiveRecord::Schema.define(version: 2019_03_02_073809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 2019_02_28_051822) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
-    t.text "token"
     t.boolean "status", default: true
     t.integer "limit", default: 1
     t.bigint "user_id"
@@ -61,6 +60,16 @@ ActiveRecord::Schema.define(version: 2019_02_28_051822) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "reply_comments", force: :cascade do |t|
+    t.text "body"
+    t.bigint "comment_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_reply_comments_on_comment_id"
+    t.index ["user_id"], name: "index_reply_comments_on_user_id"
+  end
+
   create_table "user_groups", force: :cascade do |t|
     t.integer "group_id"
     t.integer "user_id"
@@ -86,4 +95,6 @@ ActiveRecord::Schema.define(version: 2019_02_28_051822) do
   add_foreign_key "invitations", "users"
   add_foreign_key "posts", "groups"
   add_foreign_key "posts", "users"
+  add_foreign_key "reply_comments", "comments"
+  add_foreign_key "reply_comments", "users"
 end

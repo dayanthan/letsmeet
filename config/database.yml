@@ -5,7 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: testmeet_development
+  database: meetup_development
   host: localhost
   username: postgres
-  password: postgres
+  password: root
+
+production:
+  <<: *default
+  database: meetup_test_production

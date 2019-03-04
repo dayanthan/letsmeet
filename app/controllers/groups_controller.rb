@@ -3,7 +3,8 @@ class GroupsController < ApplicationController
 
   def index
     @group_list = UserGroup.where("user_id =?",session[:user_id]).pluck('group_id');
-    @groups = Group.where(:id => @group_list)
+    @own_groups = Group.where("user_id = ?", session[:user_id])
+    @participant_groups  = Group.where(:id => @group_list)
   end
 
   def show
@@ -70,15 +71,15 @@ class GroupsController < ApplicationController
     else
        is_admin = false
     end
-    @token = Digest::SHA1.hexdigest([Time.now, rand].join)
     @invitation=Invitation.create(:email => @user.email,:sender_id => session[:user_id],:receiver_id => params[:user_id], :group_id => params[:group_id], :is_approved => is_admin)
 
      if @invitation.is_approved
             InviteMailer.group_invitaion(@user, @group, @invitation).deliver_later
-            # format.html { redirect_to "/add_members/4", notice: 'Invitation was successfully sent.' }
             flash[:notice] = "Invitation was successfully sent"
             redirect_to add_members_path(params[:group_id])
      else
+            flash[:notice] = "Admin will approve your request shortly"
+            redirect_to add_members_path(params[:group_id])
      end
 
   end
@@ -102,22 +103,37 @@ class GroupsController < ApplicationController
      end
   end
 
-  def generate_token
-    self.invitation_link = loop do
-      random_token = SecureRandom.urlsafe_base64(nil, false)
-      break random_token unless Group.exists?(invitation_link: random_token)
+  def pending_invitations
+     @own_groups=Group.where("user_id = ?", session[:user_id])
+  end
+
+  def invitation_status
+      @invitation=Invitation.find_by_id(params[:id])
+      @own_groups=Group.where("user_id = ?", session[:user_id])
+      if params[:process]== "approve"
+        @user=User.find_by_id(@invitation.receiver_id)
+        @group=Group.find_by_id(params[:group_id])
+        @invitation.update_attributes(:is_approved => true)
+        InviteMailer.group_invitaion(@user, @group, @invitation).deliver_later
+        @message="Invitation was approved" 
+      elsif params[:process]== "ignore"
+        @invitation.destroy
+        @message="Invitation was ignored" 
+      end
+      respond_to do |format|
+      format.html
+      format.js
     end
+    
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_group
       @group = Group.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :token, :status, :limit, :user)
+      params.require(:group).permit(:name, :status, :limit, :user)
     end
 
 end

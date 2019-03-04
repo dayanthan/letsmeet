@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">x</button>
+  <h4 class="modal-title" id="myModalLabel">Reply</h4>
+</div>
+<div class="modal-body">
+	<form id="reply_form">
+    	<div class="form-group">
+		  <textarea class="form-control" rows="3" id="body" name="body"></textarea>
+          <input type="hidden" id="comment_id" name="comment_id" value="<%=cmt_id%>">
+    </div>
+</form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary reply">Save</button>
+</div>
+
+<script type="text/javascript">
+  $( ".reply" ).click(function() {
+  	var postData = $("#reply_form").serialize();
+	  $.ajax({
+            type: "POST",
+            url: "/submit_reply",
+            data: postData,
+            dataType: "script",
+        })
+	});
+</script>
